@@ -9,25 +9,62 @@ return [0, 1].
 """
 
 
-def two_sum_brute(numbers, target):
+def two_sum_brute(nums, target):
     """
+    The brute force approach, this is pretty simple. It loops through
+    each combination to find a value equal to target - x.
     This fails on LeetCode.com due to python being a slower language
-    :type numbers: List[int]
+    Time Complexity: O(n^2)
+    :type nums: List[int]
     :type target: int
     :rtype: List[int]
     """
 
-    for index, number in enumerate(numbers):
-        for index_2, number_2 in enumerate(numbers):
-            total = number + number_2
-            if total == target and index != index_2:
-                return [index, index_2]
+    for i, number in enumerate(nums):
+        for j, number_2 in enumerate(nums):
+            if number == target - number_2 and i != j:
+                return [i, j]
     return
 
 
 def two_sum_efficient(numbers, target):
     """
+    A more efficient solution to the problem, it will store values to
+    a dictionary. You can subtract the current number from the target
+    and then check to see if the answer has already been mapped to the
+    dictionary.
+
     :type numbers: List[int]
     :type target: int
     :rtype: List[int]
     """
+
+    number_map = {}
+    for i, number in enumerate(numbers):
+        number_map[number] = i
+
+    for i, number in enumerate(numbers):
+        complement = target - numbers[i]
+        if complement in number_map and number_map[complement] != i:
+            return i, number_map[complement]
+    return
+
+
+def two_sum_most_efficient(numbers, target):
+    """
+    Similar to the solution done above but is done using one for loop
+    instead of two
+
+    :param numbers:
+    :param target:
+    :return:
+    """
+
+    number_map = {}
+    for i, number in enumerate(numbers):
+        number_map[number] = i
+        complement = target - number
+
+        if complement in number_map and number_map[complement] != i:
+            return i, number_map[complement]
+    return
